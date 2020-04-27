@@ -233,18 +233,21 @@ class LongReadAssigner:
             original_isoform = read_id.split("_")[-1]
             if original_isoform != isoform_id:
                 logger.debug("Original isoform " + original_isoform + " is not equal to the assigned " + isoform_id)
-                isoform_introns = get_blocks_from_profile(self.gene_info.intron_profiles.features,
-                                                          self.gene_info.intron_profiles.profiles[original_isoform])
-                # read start-end coordinates
-                read_region = (read_split_exon_profile.read_features[0][0], read_split_exon_profile.read_features[-1][1])
-                # isoform start-end
-                isoform_exon_profile = self.gene_info.split_exon_profiles.profiles[original_isoform]
-                isoform_start = self.gene_info.split_exon_profiles.features[isoform_exon_profile.index(1)][0]
-                isoform_end = self.gene_info.split_exon_profiles.features[rindex(isoform_exon_profile, 1)][1]
-                isoform_region = (isoform_start, isoform_end)
-                matching_event = self.compare_junctions(read_intron_profile.read_features, read_region,
+                if original_isoform not in  self.gene_info.intron_profiles.profiles:
+                    logger.debug("Not from this gene cluster")
+                else:
+                    isoform_introns = get_blocks_from_profile(self.gene_info.intron_profiles.features,
+                                                              self.gene_info.intron_profiles.profiles[original_isoform])
+                    # read start-end coordinates
+                    read_region = (read_split_exon_profile.read_features[0][0], read_split_exon_profile.read_features[-1][1])
+                    # isoform start-end
+                    isoform_exon_profile = self.gene_info.split_exon_profiles.profiles[original_isoform]
+                    isoform_start = self.gene_info.split_exon_profiles.features[isoform_exon_profile.index(1)][0]
+                    isoform_end = self.gene_info.split_exon_profiles.features[rindex(isoform_exon_profile, 1)][1]
+                    isoform_region = (isoform_start, isoform_end)
+                    matching_event = self.compare_junctions(read_intron_profile.read_features, read_region,
                                                         isoform_introns, isoform_region)
-                logger.debug("Incorrect assignment, contradiction type " + matching_event)
+                    logger.debug("Incorrect assignment, contradiction type " + matching_event)
 
         elif len(both_mathched_isoforms) > 1:
 
