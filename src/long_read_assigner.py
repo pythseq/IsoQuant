@@ -247,7 +247,8 @@ class LongReadAssigner:
                     isoform_region = (isoform_start, isoform_end)
                     matching_event = self.compare_junctions(read_intron_profile.read_features, read_region,
                                                         isoform_introns, isoform_region)
-                    logger.debug("Incorrect assignment, contradiction type " + matching_event)
+                    logger.debug("Incorrect assignment:" + original_isoform + " - " + isoform_id +  "contradiction type " + matching_event)
+                    self.params.incorrect_assignment_stat_file.write(read_id + "\t" + isoform_id + "\n")
 
         elif len(both_mathched_isoforms) > 1:
 

@@ -124,6 +124,8 @@ class DatasetProcessor:
     def process_sample(self, sample):
         logger.info("Processing sample " + sample.label)
 
+        self.args.incorrect_assignment_stat_file = open(os.path.join(sample.out_dir, self.args.prefix + sample.label + ".incorrectly_assigned_reads.tsv"), 'w')
+
         out_assigned_tsv = os.path.join(sample.out_dir, self.args.prefix + sample.label + ".assigned_reads.tsv")
         correct_printer = BasicTSVAssignmentPrinter(out_assigned_tsv, self.args,
                                                     assignment_checker=self.correct_assignment_checker)
@@ -151,6 +153,7 @@ class DatasetProcessor:
             alignment_processor.process()
 
         feature_counter.dump()
+        self.args.incorrect_assignment_stat_file.close()
         logger.info("Finished processing sample " + sample.label)
         logger.info("Assigned reads are stored in " + out_assigned_tsv)
         logger.info("Unmatched reads are stored in " + out_unmatched_tsv)
