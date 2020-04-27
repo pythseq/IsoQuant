@@ -232,3 +232,28 @@ def get_path_to_program(program, dirpath=None, min_version=None):
             return exe_file
     return None
 
+
+def print_diff_features(profile1, profile2, features):
+    if len(profile1) != len(profile2):
+        return
+
+    str1 = ""
+    str2 = ""
+    cmp_str = ""
+    ids = []
+    for i in range(len(profile1)):
+        str1 += "{0:3d}".format(profile1[i])
+        str2 += "{0:3d}".format(profile2[i])
+        if profile1[i] != profile2[i]:
+            cmp_str += "  |"
+            ids.append(i)
+        else:
+            cmp_str += "   "
+    diff_features = []
+    for i in ids:
+        diff_features.append(features[i])
+    logger.debug(str1)
+    logger.debug(cmp_str)
+    logger.debug(str2)
+    logger.debug(diff_features)
+

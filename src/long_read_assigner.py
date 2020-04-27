@@ -247,7 +247,23 @@ class LongReadAssigner:
                     isoform_region = (isoform_start, isoform_end)
                     matching_event = self.compare_junctions(read_intron_profile.read_features, read_region,
                                                         isoform_introns, isoform_region)
-                    logger.debug("Incorrect assignment:" + original_isoform + " - " + isoform_id +  "contradiction type " + matching_event)
+                    logger.debug(
+                        "Incorrect assignment:" + original_isoform + " - " + isoform_id + "contradiction type " + matching_event)
+                    logger.debug("= Exon profiles:")
+                    print_diff_features(self.gene_info.split_exon_profiles.profiles[original_isoform],
+                                        self.gene_info.split_exon_profiles.profiles[isoform_id],
+                                        self.gene_info.split_exon_profiles.features)
+                    print_diff_features(self.gene_info.split_exon_profiles.profiles[original_isoform],
+                                        read_split_exon_profile.gene_profile,
+                                        self.gene_info.split_exon_profiles.features)
+                    logger.debug("= Intron profiles:")
+                    print_diff_features(self.gene_info.intron_profiles.profiles[original_isoform],
+                                        self.gene_info.intron_profiles.profiles[isoform_id],
+                                        self.gene_info.intron_profiles.features)
+                    print_diff_features(self.gene_info.intron_profiles.profiles[original_isoform],
+                                        read_intron_profile.gene_profile,
+                                        self.gene_info.intron_profiles.features)
+
                     self.params.incorrect_assignment_stat_file.write(read_id + "\t" + isoform_id + "\n")
 
         elif len(both_mathched_isoforms) > 1:
