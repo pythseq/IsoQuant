@@ -246,13 +246,13 @@ class TranscriptModelConstructor:
             if not representative_read_assignment:
                 #logger.debug("> No reliable representative read can be found")
                 return
-            #logger.debug("> Representative read chosen: %s" % representative_read_assignment.read_id)
-            #logger.debug(representative_read_assignment.combined_profile.read_exon_profile.read_features)
-            #logger.debug(representative_read_assignment.combined_profile.read_intron_profile.read_features)
+            logger.debug("> Representative read chosen: %s" % representative_read_assignment.read_id)
+            logger.debug(representative_read_assignment.combined_profile.read_exon_profile.read_features)
+            logger.debug(representative_read_assignment.combined_profile.read_intron_profile.read_features)
             # create a new transcript model
             new_transcript_model = self.blend_read_into_isoform(isoform_id, representative_read_assignment)
             if not new_transcript_model:
-                #logger.debug("> No novel model was constructed")
+                logger.debug("> No novel model was constructed")
                 return
             logger.debug("Created new candidate transcript model %s : %s " %
                          (new_transcript_model.transcript_id, str(new_transcript_model.exon_blocks)))
@@ -309,9 +309,9 @@ class TranscriptModelConstructor:
         read_start, read_end = self.get_read_region(strand, combined_profile)
         novel_exons = []
 
-        # logger.debug("Isoform I " + str(isoform_introns))
-        # logger.debug("Isoform E " + str(self.gene_info.all_isoforms_exons[isoform_id]))
-        # logger.debug("Read " + str(read_introns))
+        logger.debug("Isoform I " + str(isoform_introns))
+        logger.debug("Isoform E " + str(self.gene_info.all_isoforms_exons[isoform_id]))
+        logger.debug("Read " + str(read_introns))
 
         if SupplementaryMatchConstansts.extra_left_mod_position in modification_events_map:
             # if there are extra introns on the left
@@ -343,7 +343,7 @@ class TranscriptModelConstructor:
                     break
 
                 # simply select reference isoform intron
-                # logger.debug("Adding ref exon: %d, %d" % (isoform_pos, current_exon_start))
+                logger.debug("Adding ref exon: %d, %d" % (isoform_pos, current_exon_start))
                 current_exon_start = self.add_intron(novel_exons, current_exon_start, isoform_introns[isoform_pos])
                 isoform_pos += 1
 
@@ -399,17 +399,17 @@ class TranscriptModelConstructor:
     # process a sorted list of events assigned to the same intron
     def process_intron_related_events(self, sorted_event_list, isoform_pos, isoform_introns, read_introns,
                                       novel_exons, current_exon_start):
-        #logger.debug("> Processing events for position %s: %s" % (str(isoform_pos), str(sorted_event_list)))
-        #logger.debug("> Before: %d, %s" % (current_exon_start, novel_exons))
+        logger.debug("> Processing events for position %s: %s" % (str(isoform_pos), str(sorted_event_list)))
+        logger.debug("> Before: %d, %s" % (current_exon_start, novel_exons))
         for event in sorted_event_list:
             current_exon_start = self.procces_signle_event(event, isoform_pos, isoform_introns, read_introns,
                                                            novel_exons, current_exon_start)
-        #logger.debug("> After: %d, %s" % (current_exon_start, novel_exons))
+        logger.debug("> After: %d, %s" % (current_exon_start, novel_exons))
         return current_exon_start
 
     # process single event
     def procces_signle_event(self, event_tuple, isoform_pos, isoform_introns, read_introns, novel_exons, current_exon_start):
-        #logger.debug("> > Applying event %s at position %s" % (event_tuple.event_type.name, str(isoform_pos)))
+        logger.debug("> > Applying event %s at position %s" % (event_tuple.event_type.name, str(isoform_pos)))
         if event_tuple.event_type == MatchEventSubtype.intron_retention:
             # simply skip reference intron
             return current_exon_start
@@ -418,7 +418,7 @@ class TranscriptModelConstructor:
             logger.warning("Undefined read intron position for event type: %s" % event_tuple.event_type.name)
             return current_exon_start
         read_intron = read_introns[event_tuple.read_region[0]]
-        #logger.debug("Novel intron " + str(read_intron))
+        logger.debug("Novel intron " + str(read_intron))
 
         if event_tuple.event_type == MatchEventSubtype.extra_intron:
             return self.add_intron(novel_exons, current_exon_start, read_intron)
@@ -592,9 +592,9 @@ class TranscriptModelConstructor:
             else:
                 unassigned_reads.append(assignment)
 
-        # logger.debug("Stats for %s, FSM = %d, total = %d, start = %d, end = %d" %
-        #             (transcript_model.transcript_id, fsm_match_count, len(assigned_reads),
-        #              nearby_starts_count, nearby_ends_count))
+        logger.debug("Stats for %s, FSM = %d, total = %d, start = %d, end = %d" %
+                     (transcript_model.transcript_id, fsm_match_count, len(assigned_reads),
+                      nearby_starts_count, nearby_ends_count))
         if fsm_match_count == 0:
             logger.warning("Zero FSM for transcript model %s" % transcript_model.transcript_id)
 
