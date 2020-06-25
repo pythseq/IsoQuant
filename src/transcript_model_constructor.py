@@ -538,7 +538,7 @@ class TranscriptModelConstructor:
         return intron[1] + 1
 
     def verify_novel_model(self, read_assignments, transcript_model, original_read_id, candidate_model_storage):
-        # logger.debug("Verifying transcript model %s with %d reads" % (transcript_model.transcript_id, len(read_assignments)))
+        logger.debug("Verifying transcript model %s with %d reads" % (transcript_model.transcript_id, len(read_assignments)))
         model_exons = transcript_model.exon_blocks
         isoform_start = model_exons[0][0]
         isoform_end = model_exons[-1][1]
@@ -565,7 +565,7 @@ class TranscriptModelConstructor:
                 intron_comparator.compare_junctions(read_introns, (read_start, read_end),
                                                     model_introns, (isoform_start, isoform_end))
 
-            #logger.debug("Read %s, start %d, end %d, events %s" % (assignment.read_id, read_start, read_end, str(matching_events)))
+            logger.debug("Read %s, start %d, end %d, events %s" % (assignment.read_id, read_start, read_end, str(matching_events)))
 
             # check that no serious contradiction occurs
             profile_matches = True
@@ -598,6 +598,9 @@ class TranscriptModelConstructor:
         if fsm_match_count == 0:
             logger.warning("Zero FSM for transcript model %s" % transcript_model.transcript_id)
 
+        if fsm_match_count == 0:
+            logger.warning("Zero FSM for transcript model %s" % transcript_model.transcript_id)
+            
         if len(assigned_reads) >= self.params.min_novel_supporting_reads and \
                 fsm_match_count >= self.params.min_novel_fsm_supporting_reads and \
                 nearby_starts_count >= self.params.min_reads_supporting_tsts and \
