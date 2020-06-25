@@ -598,9 +598,6 @@ class TranscriptModelConstructor:
         if fsm_match_count == 0:
             logger.warning("Zero FSM for transcript model %s" % transcript_model.transcript_id)
 
-        if fsm_match_count == 0:
-            logger.warning("Zero FSM for transcript model %s" % transcript_model.transcript_id)
-
         if len(assigned_reads) >= self.params.min_novel_supporting_reads and \
                 fsm_match_count >= self.params.min_novel_fsm_supporting_reads and \
                 nearby_starts_count >= self.params.min_reads_supporting_tsts and \
