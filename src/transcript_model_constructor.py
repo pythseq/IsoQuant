@@ -556,7 +556,9 @@ class TranscriptModelConstructor:
         nearby_ends_count = 0
         for assignment in read_assignments:
             read_introns = assignment.combined_profile.read_intron_profile.read_features
+            logger.debug("Read introns " + str(read_introns))
             read_start, read_end = self.get_read_region(strand, assignment.combined_profile)
+            logger.debug("Read region %d : %d" % (read_start, read_end))
             start_matches = abs(read_start - isoform_start) < self.params.max_dist_to_novel_tsts
             end_matches = abs(read_end - isoform_end) < self.params.max_dist_to_novel_tsts
             #profile_matches =  all(el == 1 for el in read_profile.read_profile)
