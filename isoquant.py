@@ -186,7 +186,7 @@ def set_additional_params(args):
     strategies = {
         'exact':   Strategy(0,  5,   0,   0,   False, ExonAmbiguityResolvingMethod.mono_exonic_only, False),
         'precise': Strategy(3,  10,  30,  50,  False, ExonAmbiguityResolvingMethod.mono_exonic_only, True),
-        'default': Strategy(6,  300, 100, 200, False, ExonAmbiguityResolvingMethod.mono_exonic_only, True),
+        'default': Strategy(6,  30,  60,  200, False, ExonAmbiguityResolvingMethod.mono_exonic_only, True),
         'loose':   Strategy(12, 100, 200, 300, True,  ExonAmbiguityResolvingMethod.all,  True),
     }
 
@@ -212,7 +212,7 @@ def set_additional_params(args):
 
     args.indel_near_splice_site_dist = 10
     args.upstream_region_len = 20
-    args.apa_delta = 20
+    args.apa_delta = 100
 
     # trascript model construction
     args.min_ref_fsm_supporting_reads = 1
