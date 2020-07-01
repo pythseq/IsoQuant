@@ -172,7 +172,7 @@ def set_logger(args, logger_instnace):
     ch = logging.StreamHandler(sys.stdout)
     ch.setLevel(logging.INFO)
 
-    formatter = logging.Formatter('%(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(filename)s:%(lineno)d\t%(levelname)s\t%(message)s')
     fh.setFormatter(formatter)
     ch.setFormatter(formatter)
     logger_instnace.addHandler(fh)

@@ -299,8 +299,7 @@ class TranscriptModelConstructor:
                 continue
 
             logger.debug("Checking whether read is reliable")
-            logger.debug(a.combined_profile.read_exon_profile.read_features[0][0],
-                         a.combined_profile.read_exon_profile.read_features[-1][1])
+            logger.debug(str(a.combined_profile.read_exon_profile.read_features[0][0]) + " " +  str(a.combined_profile.read_exon_profile.read_features[-1][1]))
             logger.debug("%s %d %d" % (a.read_id, a.combined_profile.polya_pos, a.combined_profile.polyt_pos))
             if strand == '+':
                 tss = a.combined_profile.read_exon_profile.read_features[0][0]
